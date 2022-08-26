@@ -5,12 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Casa de Cambio - Franco Bonomini</title>
-    <script src="main.js"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
 </head>
 <body>
-
+    <!-- <div class="usuario" id="hola">Usuario</div> -->
     <form class="formulario">
         <h1>Casa de cambio</h1>
         <p class="sma">Seleccionar moneda a cambiar:</p>
@@ -24,6 +23,10 @@
         <p class="imp">Ingrese Monto en pesos:</p>
         <input type="number" id="valor" min="1" max="1000000">
         <button id="cotizador" value="Cotizar" onclick="convertir()">Cotizar</button>
+
     </form>
+    <script src="paises.js"></script>
+    <script src="main.js"></script>
 </body>
+
 </html>
