@@ -1,57 +1,62 @@
-let nuevoDiv = document.createElement('div')
-let usuario = document.querySelectorAll('.usuario')
+const dropList = document.querySelectorAll("form select"),
+fromCurrency = document.querySelector(".from select"),
+toCurrency = document.querySelector(".to select"),
+getButton = document.querySelector("form button");
 
-
-class Usuario {
-    constructor(nombre) {
-        this.nombre = nombre;
+for (let i = 0; i < dropList.length; i++) {
+    for(let currency_code in country_list){
+        let selected = i == 0 ? currency_code == "USD" ? "selected" : "" : currency_code == "ARS" ? "selected" : "";
+        let optionTag = `<option value="${currency_code}" ${selected}>${currency_code}</option>`;
+        dropList[i].insertAdjacentHTML("beforeend", optionTag);
     }
+    dropList[i].addEventListener("change", e =>{
+        loadFlag(e.target);
+    });
 }
-let usuario1 = new Usuario (prompt('Ingresa tu nombre'))
-usuario.innerHTML = usuario1.nombre
 
-localStorage.setItem('Usuario', JSON.stringify(usuario1.nombre))
-
-let UsuarioActivo = JSON.parse(localStorage.getItem('Usuario'))
-nuevoDiv.innerHTML = `<p> Hola` + UsuarioActivo
-// document.body.append(nuevoDiv)
-console.log('Hola ' + UsuarioActivo);
-
-
-
-const monedas=[
-    {
-        id:"dolar",
-        valor: 149
-    },
-    {
-        id:"euro",
-        valor: 120
-    },
-    {
-        id:"libra",
-        valor: 163
-    }
-]
-
-
-function convertir() {
-    let valore = parseInt(document.getElementById("valor").value);
-    let resultado = 0;
-    if(document.getElementById("uno").checked){
-        resultado = valore / monedas[0].valor;
-        alert("El cambio de Pesos a Dolares es: $" + resultado.toFixed(2));
-    }
-    else if(document.getElementById("dos").checked){
-        resultado = valore / monedas[1].valor;
-        alert("El cambio de Pesos a Euros es: €" + resultado.toFixed(2));
-    }
-    else if(document.getElementById("tres").checked){
-        resultado = valore / monedas[2].valor;
-        alert("El cambio de Pesos a Libras es: £" + resultado.toFixed(2));
-    }
-    else{
-        alert("Error: Ingrese un numero y que moneda desea cotizar");
+function loadFlag(element){
+    for(let code in country_list){
+        if(code == element.value){
+            let imgTag = element.parentElement.querySelector("img");
+            imgTag.src = `https://flagcdn.com/48x36/${country_list[code].toLowerCase()}.png`;
+        }
     }
 }
 
+window.addEventListener("load", ()=>{
+    getExchangeRate();
+});
+
+getButton.addEventListener("click", e =>{
+    e.preventDefault();
+    getExchangeRate();
+});
+
+const exchangeIcon = document.querySelector("form .icon");
+exchangeIcon.addEventListener("click", ()=>{
+    let tempCode = fromCurrency.value;
+    fromCurrency.value = toCurrency.value;
+    toCurrency.value = tempCode;
+    loadFlag(fromCurrency);
+    loadFlag(toCurrency);
+    getExchangeRate();
+})
+
+function getExchangeRate(){
+    const amount = document.querySelector("form input");
+    const exchangeRateTxt = document.querySelector("form .exchange-rate");
+    let amountVal = amount.value;
+    if(amountVal == "" || amountVal == "0"){
+        amount.value = "1";
+        amountVal = 1;
+    }
+    exchangeRateTxt.innerText = "Obteniendo el resultado...";
+    let url = `https://v6.exchangerate-api.com/v6/6fcd604b0e7ed87d1f6708a5/latest/${fromCurrency.value}`;
+    fetch(url).then(response => response.json()).then(result =>{
+        let exchangeRate = result.conversion_rates[toCurrency.value];
+        let totalExRate = (amountVal * exchangeRate).toFixed(2);
+        exchangeRateTxt.innerText = `${amountVal} ${fromCurrency.value} = ${totalExRate} ${toCurrency.value}`;
+    }).catch(() =>{
+        exchangeRateTxt.innerText = "Algo salió mal";
+    });
+}

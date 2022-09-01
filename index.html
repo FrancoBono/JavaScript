@@ -1,32 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Casa de Cambio - Franco Bonomini</title>
+    <meta charset="utf-8">
+    <title>Conversor de monedas | Franco Bonomini </title>
     <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
 </head>
 <body>
-    <!-- <div class="usuario" id="hola">Usuario</div> -->
-    <form class="formulario">
-        <h1>Casa de cambio</h1>
-        <p class="sma">Seleccionar moneda a cambiar:</p>
-        <input type="radio" name="cambio" id="uno">Dolar
-        <img src="https://flagcdn.com/48x36/us.png" alt="flag">
-        <input type="radio" name="cambio" id="dos">Euro
-        <img src="https://flagcdn.com/48x36/eu.png" alt="flag">
-        <input type="radio" name="cambio" id="tres">Libra
-        <img src="https://flagcdn.com/48x36/gb.png" alt="flag">
-
-        <p class="imp">Ingrese Monto en pesos:</p>
-        <input type="number" id="valor" min="1" max="1000000">
-        <button id="cotizador" value="Cotizar" onclick="convertir()">Cotizar</button>
-
+    <div class="wrapper">
+    <header>Conversor de monedas</header>
+    <form action="#">
+        <div class="amount">
+            <p>Ingrese la cantidad</p>
+            <input type="text" value="1">
+        </div>
+        <div class="drop-list">
+            <div class="from">
+                <p>De</p>
+                <div class="select-box">
+                    <img src="https://flagcdn.com/48x36/us.png" alt="flag">
+                    <select> <!-- Las opciones son implementadas mediante JS --> </select>
+                </div>
+            </div>
+            <div class="icon"><i class="fas fa-exchange-alt"></i></div>
+            <div class="to">
+                <p>A</p>
+                <div class="select-box">
+                <img src="https://flagcdn.com/48x36/ar.png" alt="flag">
+                <select> <!-- Las opciones son implementadas mediante JS --> </select>
+                </div>
+            </div>
+        </div>
+        <div class="exchange-rate">Obteniendo el cambio...</div>
+        <button>Obtener el cambio</button>
     </form>
+    </div>
     <script src="paises.js"></script>
     <script src="main.js"></script>
 </body>
-
 </html>
